@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useBracket, useBracketDispatch } from '../../context/BracketContext'
 import { MovieCard } from '../MovieCard/MovieCard'
+import { BracketView } from '../BracketView/BracketView'
 import styles from './WinnerScreen.module.css'
 
 /* ---------- Confetti helpers ---------- */
@@ -164,19 +165,9 @@ export function WinnerScreen() {
         </button>
       </motion.div>
 
-      {/* ---- Bracket Placeholder ---- */}
+      {/* ---- Bracket View ---- */}
       <AnimatePresence>
-        {showBracket && (
-          <motion.div
-            className={styles.bracketPlaceholder}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <p>Bracket view coming soon</p>
-          </motion.div>
-        )}
+        {showBracket && <BracketView key="bracket" />}
       </AnimatePresence>
     </motion.div>
   )
