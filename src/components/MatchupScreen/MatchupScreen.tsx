@@ -2,20 +2,18 @@ import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useBracket, useBracketDispatch } from '../../context/BracketContext'
 import { MovieCard } from '../MovieCard/MovieCard'
-import { ProgressBar } from '../ProgressBar/ProgressBar'
 import type { MediaItem } from '../../types'
 import styles from './MatchupScreen.module.css'
 
 type PickSide = 'left' | 'right' | null
 
 export function MatchupScreen() {
-  const { rounds, currentRoundIndex, currentMatchupIndex, bracketSize } = useBracket()
+  const { rounds, currentRoundIndex, currentMatchupIndex } = useBracket()
   const dispatch = useBracketDispatch()
 
   const [pickState, setPickState] = useState<PickSide>(null)
   const [showRoundAnnouncement, setShowRoundAnnouncement] = useState(false)
 
-  const totalRounds = Math.log2(bracketSize)
   const currentRound = rounds[currentRoundIndex]
   const currentMatchup = currentRound.matchups[currentMatchupIndex]
 
@@ -78,15 +76,6 @@ export function MatchupScreen() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Progress Bar */}
-      <ProgressBar
-        roundName={currentRound.name}
-        matchNumber={currentMatchupIndex + 1}
-        totalMatches={currentRound.matchups.length}
-        roundNumber={currentRoundIndex}
-        totalRounds={totalRounds}
-      />
-
       {/* Round Announcement Overlay */}
       <AnimatePresence>
         {showRoundAnnouncement && (
@@ -136,20 +125,7 @@ export function MatchupScreen() {
 
           {/* VS Element */}
           <div className={styles.vsContainer}>
-            <motion.span
-              className={styles.vs}
-              animate={{
-                scale: [1, 1.15, 1],
-                textShadow: [
-                  '0 0 10px rgba(99, 102, 241, 0.4)',
-                  '0 0 30px rgba(99, 102, 241, 0.4)',
-                  '0 0 10px rgba(99, 102, 241, 0.4)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              VS
-            </motion.span>
+            <span className={styles.vs}>VS</span>
           </div>
 
           {/* Right Card */}

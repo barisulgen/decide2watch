@@ -15,7 +15,7 @@
   gap: 1.5rem;
   width: 100%;
   max-width: 960px;
-  padding: 2rem 1rem;
+  padding: 1rem;
 }
 
 /* ===== Card Wrappers ===== */
@@ -75,7 +75,13 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   user-select: none;
-  text-shadow: 0 0 10px var(--accent-glow);
+  text-shadow: 0 0 15px var(--accent-glow);
+  animation: vsPulse 3s ease-in-out infinite;
+}
+
+@keyframes vsPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 
 /* ===== Round Announcement Overlay ===== */
@@ -86,9 +92,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 10, 15, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 10, 15, 0.92);
 }
 
 .roundAnnouncementText {

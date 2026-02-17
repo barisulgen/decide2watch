@@ -7,7 +7,7 @@ import styles from './WinnerScreen.module.css'
 
 /* ---------- Confetti helpers ---------- */
 
-const CONFETTI_COUNT = 50
+const CONFETTI_COUNT = 30
 const CONFETTI_COLORS = [
   '#fbbf24', // gold
   '#f59e0b', // amber
@@ -53,10 +53,17 @@ export function WinnerScreen() {
 
   const [showBracket, setShowBracket] = useState(false)
 
-  const finalRound = rounds[rounds.length - 1]
-  const winner = finalRound.matchups[0].winner!
+  // Capture winner on mount so it survives RESET during exit animation
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const winner = useMemo(() => {
+    if (rounds.length === 0) return null
+    const finalRound = rounds[rounds.length - 1]
+    return finalRound.matchups[0].winner
+  }, [])
 
   const confettiPieces = useMemo(() => generateConfetti(), [])
+
+  if (!winner) return null
 
   const tmdbUrl = `https://www.themoviedb.org/${winner.mediaType}/${winner.id}`
 
