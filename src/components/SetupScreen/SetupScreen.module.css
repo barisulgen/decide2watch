@@ -294,3 +294,38 @@
     font-size: 0.6rem;
   }
 }
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .label {
+    font-size: 0.7rem;
+  }
+
+  .segmentBtn {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .select,
+  .input {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .startBtn {
+    font-size: 0.95rem;
+    padding: 0.85rem;
+  }
+}
