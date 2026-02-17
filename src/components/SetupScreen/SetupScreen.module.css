@@ -50,6 +50,7 @@
 /* ---------- Segmented Control ---------- */
 
 .segmented {
+  position: relative;
   display: flex;
   gap: 4px;
   background: var(--bg-secondary);
