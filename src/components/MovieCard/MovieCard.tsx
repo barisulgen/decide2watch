@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import type { MediaItem } from '../../types'
 import { TMDB_IMAGE_BASE, POSTER_SIZE, PROFILE_SIZE, LOGO_SIZE } from '../../constants/genres'
@@ -33,6 +33,29 @@ function getRatingClass(rating: number): string {
 
 export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
   const [synopsisExpanded, setSynopsisExpanded] = useState(false)
+  const [displayRating, setDisplayRating] = useState(0)
+  const rafRef = useRef<number>(0)
+
+  // Count-up animation for rating
+  useEffect(() => {
+    const target = item.voteAverage
+    const duration = 500 // ms
+    const start = performance.now()
+
+    function tick(now: number) {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplayRating(eased * target)
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick)
+      }
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [item.voteAverage])
 
   const year = item.releaseDate ? item.releaseDate.slice(0, 4) : null
   const cast = item.cast?.slice(0, 5) ?? []
@@ -78,7 +101,7 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
         {/* Rating Badge */}
         <div className={styles.ratingRow}>
           <span className={`${styles.ratingBadge} ${getRatingClass(item.voteAverage)}`}>
-            {item.voteAverage.toFixed(1)}
+            {displayRating.toFixed(1)}
           </span>
           <span className={styles.voteCount}>
             &middot; {formatVoteCount(item.voteCount)} votes

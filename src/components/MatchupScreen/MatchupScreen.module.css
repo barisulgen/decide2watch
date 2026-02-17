@@ -24,6 +24,8 @@
   flex: 1;
   max-width: var(--card-width);
   min-width: 0;
+  border-radius: var(--card-radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ===== Pick Animations ===== */

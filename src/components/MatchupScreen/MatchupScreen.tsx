@@ -124,6 +124,8 @@ export function MatchupScreen() {
             animate="animate"
             exit="exit"
             transition={springTransition}
+            whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6)' }}
+            whileTap={{ scale: 0.98 }}
           >
             <MovieCard
               item={currentMatchup.a}
@@ -158,6 +160,8 @@ export function MatchupScreen() {
             animate="animate"
             exit="exit"
             transition={springTransition}
+            whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6)' }}
+            whileTap={{ scale: 0.98 }}
           >
             <MovieCard
               item={currentMatchup.b}
