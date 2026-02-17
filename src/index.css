@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #22223a;
+  --surface: #16213e;
+  --border: #2a2a4a;
+  --border-glow: #6366f1;
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --accent-glow: rgba(99, 102, 241, 0.4);
+
+  --gold: #fbbf24;
+  --gold-glow: rgba(251, 191, 36, 0.4);
+
+  --red: #ef4444;
+  --green: #22c55e;
+
+  --rating-high: #22c55e;
+  --rating-mid: #fbbf24;
+  --rating-low: #ef4444;
+
+  --card-width: 440px;
+  --card-radius: 16px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 30px var(--accent-glow);
+  --shadow-gold: 0 0 40px var(--gold-glow);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
