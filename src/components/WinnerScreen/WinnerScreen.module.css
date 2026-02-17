@@ -1,0 +1,222 @@
+/* ========== Wrapper ========== */
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 2rem 1rem 3rem;
+  overflow: hidden;
+}
+
+/* ========== Confetti ========== */
+
+.confettiContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.confettiPiece {
+  position: absolute;
+}
+
+.confettiSquare {
+  border-radius: 2px;
+}
+
+.confettiCircle {
+  border-radius: 50%;
+}
+
+/* ========== Title ========== */
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--gold), #f59e0b, var(--gold));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ========== Winner Card Wrapper ========== */
+
+.cardWrapper {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1.25rem;
+}
+
+.glowBorder {
+  border-radius: var(--card-radius);
+  padding: 3px;
+  background: linear-gradient(
+    135deg,
+    var(--gold),
+    #f59e0b,
+    var(--gold),
+    #fde68a
+  );
+  background-size: 300% 300%;
+  animation: borderGlow 4s ease-in-out infinite;
+  box-shadow:
+    0 0 20px var(--gold-glow),
+    0 0 60px rgba(251, 191, 36, 0.15);
+  animation: borderGlow 4s ease-in-out infinite, pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px var(--gold-glow),
+      0 0 60px rgba(251, 191, 36, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 30px var(--gold-glow),
+      0 0 80px rgba(251, 191, 36, 0.25),
+      0 0 120px rgba(251, 191, 36, 0.1);
+  }
+}
+
+/* ========== TMDB Link ========== */
+
+.tmdbLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+
+.tmdbLink:hover {
+  color: #fde68a;
+}
+
+.externalIcon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+/* ========== Buttons ========== */
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+}
+
+.bracketBtn {
+  flex: 1;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+}
+
+.bracketBtn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
+}
+
+.bracketBtn:active {
+  transform: scale(0.97);
+}
+
+.playAgainBtn {
+  flex: 1;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.playAgainBtn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 28px var(--accent-glow);
+}
+
+.playAgainBtn:active {
+  transform: scale(0.97);
+}
+
+/* ========== Bracket Placeholder ========== */
+
+.bracketPlaceholder {
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 560px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .cardWrapper {
+    max-width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+}
