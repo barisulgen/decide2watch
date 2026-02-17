@@ -1,0 +1,214 @@
+/* ===== Container ===== */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 60vh;
+  padding: 2rem;
+  user-select: none;
+}
+
+/* ===== Film Reel Icon ===== */
+.reelWrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  animation: spinReel 4s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reelCenter {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.reelHole {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+}
+
+/* Position 6 holes evenly around the reel */
+.reelHole:nth-child(1) {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.reelHole:nth-child(2) {
+  top: 22px;
+  right: 8px;
+}
+
+.reelHole:nth-child(3) {
+  bottom: 22px;
+  right: 8px;
+}
+
+.reelHole:nth-child(4) {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.reelHole:nth-child(5) {
+  bottom: 22px;
+  left: 8px;
+}
+
+.reelHole:nth-child(6) {
+  top: 22px;
+  left: 8px;
+}
+
+/* Pulsing glow ring behind the reel */
+.glowRing {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(99, 102, 241, 0.15);
+  animation: pulseGlow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes spinReel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* ===== Text ===== */
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: -0.75rem;
+  text-align: center;
+}
+
+/* ===== Progress Bar ===== */
+.progressTrack {
+  width: 240px;
+  max-width: 80%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progressBar {
+  width: 40%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover), var(--gold));
+  animation: slideBar 1.8s ease-in-out infinite;
+}
+
+@keyframes slideBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* ===== Film Strip Decoration ===== */
+.filmStrip {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  width: 280px;
+  max-width: 80%;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+}
+
+.filmFrames {
+  display: flex;
+  gap: 8px;
+  animation: scrollFrames 6s linear infinite;
+}
+
+.filmFrame {
+  flex-shrink: 0;
+  width: 32px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  opacity: 0.5;
+}
+
+.filmFrame:nth-child(odd) {
+  opacity: 0.3;
+}
+
+@keyframes scrollFrames {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-160px);
+  }
+}
