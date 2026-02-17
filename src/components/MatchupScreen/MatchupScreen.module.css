@@ -1,0 +1,130 @@
+/* ===== Outer Wrapper ===== */
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+
+/* ===== Arena (the matchup area) ===== */
+.arena {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 960px;
+  padding: 2rem 1rem;
+}
+
+/* ===== Card Wrappers ===== */
+.cardLeft,
+.cardRight {
+  flex: 1;
+  max-width: var(--card-width);
+  min-width: 0;
+}
+
+/* ===== Pick Animations ===== */
+.cardWinner {
+  position: relative;
+}
+
+.cardWinner::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--card-radius);
+  border: 3px solid var(--gold);
+  box-shadow: var(--shadow-gold);
+  pointer-events: none;
+  animation: winnerGlow 0.6s ease-out forwards;
+}
+
+@keyframes winnerGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== VS Element ===== */
+.vsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 8rem;
+}
+
+.vs {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  user-select: none;
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ===== Round Announcement Overlay ===== */
+.roundOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.roundAnnouncementText {
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 60px rgba(99, 102, 241, 0.2);
+  text-align: center;
+  padding: 0 2rem;
+}
+
+/* ===== Responsive: Mobile Stack ===== */
+@media (max-width: 768px) {
+  .arena {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0.75rem;
+  }
+
+  .cardLeft,
+  .cardRight {
+    max-width: 100%;
+  }
+
+  .vsContainer {
+    padding-top: 0;
+  }
+
+  .vs {
+    font-size: 1.75rem;
+  }
+
+  .roundAnnouncementText {
+    font-size: 2rem;
+  }
+}
