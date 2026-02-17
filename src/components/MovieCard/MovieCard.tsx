@@ -120,7 +120,7 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
         )}
 
         {/* Synopsis */}
-        {item.overview && (
+        {item.overview ? (
           <div className={styles.synopsisSection}>
             <p
               className={`${styles.synopsis} ${
@@ -140,6 +140,8 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
               {synopsisExpanded ? 'Show less' : 'Show more'}
             </button>
           </div>
+        ) : (
+          <p className={styles.synopsis}>No synopsis available.</p>
         )}
 
         <hr className={styles.divider} />

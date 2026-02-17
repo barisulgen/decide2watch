@@ -106,13 +106,17 @@ export function SetupScreen() {
                 themoviedb.org
               </a>
               <br />
-              2. Go to Settings &rarr; API and copy your key
+              2. Go to{' '}
+              <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener noreferrer">
+                Settings &rarr; API
+              </a>
+              {' '}and copy your API key
               <br />
               3. Create a <code>.env</code> file in the project root:
               <br /><br />
               <code>VITE_TMDB_API_KEY=your_key_here</code>
               <br /><br />
-              Then restart the dev server.
+              4. Restart the dev server.
             </p>
           </div>
         </div>
