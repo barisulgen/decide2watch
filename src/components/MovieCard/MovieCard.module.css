@@ -1,0 +1,373 @@
+/* ===== Card Shell ===== */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--card-width);
+  border: 1px solid var(--border);
+  transition: opacity 0.2s ease;
+}
+
+.cardClickable {
+  cursor: pointer;
+}
+
+.cardDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===== Poster ===== */
+.poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.posterImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.posterPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    var(--surface) 100%
+  );
+}
+
+.posterIcon {
+  font-size: 3rem;
+  line-height: 1;
+  opacity: 0.5;
+}
+
+.posterTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0 1.5rem;
+  line-height: 1.4;
+}
+
+/* ===== Content Area ===== */
+.content {
+  padding: 1.125rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ===== Title & Year ===== */
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.year {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ===== Rating Badge ===== */
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ratingBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+  min-width: 2.2rem;
+  text-align: center;
+}
+
+.ratingHigh {
+  background: var(--rating-high);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+}
+
+.ratingMid {
+  background: var(--rating-mid);
+  color: #1a1a2e;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.ratingLow {
+  background: var(--rating-low);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.voteCount {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ===== Genre Tags ===== */
+.genres {
+  display: flex;
+  gap: 0.375rem;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.genres::-webkit-scrollbar {
+  display: none;
+}
+
+.genrePill {
+  flex-shrink: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  background: transparent;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* ===== Synopsis ===== */
+.synopsisSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.synopsis {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.synopsisClamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.toggleBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  font-family: inherit;
+}
+
+.toggleBtn:hover {
+  color: var(--accent-hover);
+}
+
+/* ===== Divider ===== */
+.divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: 0;
+}
+
+/* ===== Runtime / Seasons ===== */
+.meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.metaIcon {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* ===== Cast ===== */
+.castSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.castLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.castList {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 2px;
+}
+
+.castList::-webkit-scrollbar {
+  display: none;
+}
+
+.castMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  width: 52px;
+}
+
+.castPhoto {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.castPhotoPlaceholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.castInitial {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.castName {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.25;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+/* ===== Providers ===== */
+.providersSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.providersLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.providersList {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.providerLogo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.providersEmpty {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 560px) {
+  .content {
+    padding: 0.875rem 1rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.05rem;
+  }
+
+  .castPhoto,
+  .castPhotoPlaceholder {
+    width: 38px;
+    height: 38px;
+  }
+
+  .castMember {
+    width: 46px;
+  }
+
+  .providerLogo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .poster {
+    aspect-ratio: 2 / 2.8;
+  }
+}
