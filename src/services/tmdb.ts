@@ -227,27 +227,26 @@ export async function enrichItem(item: MediaItem): Promise<MediaItem> {
   const seenProviderIds = new Set<number>()
 
   if (regionData) {
-    const providerTypes: Array<{ list: typeof regionData.flatrate; type: WatchProvider['type'] }> = [
-      { list: regionData.flatrate, type: 'flatrate' },
-      { list: regionData.free, type: 'free' },
-      { list: regionData.rent, type: 'rent' },
-      { list: regionData.buy, type: 'buy' },
+    const providerEntries: Array<[WatchProvider['type'], typeof regionData.flatrate]> = [
+      ['flatrate', regionData.flatrate],
+      ['free', regionData.free],
+      ['rent', regionData.rent],
+      ['buy', regionData.buy],
     ]
 
-    for (const { list, type } of providerTypes) {
-      if (list) {
-        for (const p of list) {
-          if (!seenProviderIds.has(p.provider_id)) {
-            seenProviderIds.add(p.provider_id)
-            watchProviders.push({
-              providerId: p.provider_id,
-              providerName: p.provider_name,
-              logoPath: p.logo_path,
-              type,
-            })
-          }
-        }
-      }
+    const allProviders = providerEntries.flatMap(([type, list]) =>
+      (list ?? []).map(p => ({ ...p, type })),
+    )
+
+    for (const p of allProviders) {
+      if (seenProviderIds.has(p.provider_id)) continue
+      seenProviderIds.add(p.provider_id)
+      watchProviders.push({
+        providerId: p.provider_id,
+        providerName: p.provider_name,
+        logoPath: p.logo_path,
+        type: p.type,
+      })
     }
   }
 
