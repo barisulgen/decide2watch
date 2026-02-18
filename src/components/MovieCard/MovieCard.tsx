@@ -33,7 +33,9 @@ function getRatingClass(rating: number): string {
 
 export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
   const [synopsisExpanded, setSynopsisExpanded] = useState(false)
+  const [isClamped, setIsClamped] = useState(false)
   const [displayRating, setDisplayRating] = useState(0)
+  const synopsisRef = useRef<HTMLParagraphElement>(null)
   const rafRef = useRef<number>(0)
 
   // Count-up animation for rating
@@ -56,6 +58,14 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
   }, [item.voteAverage])
+
+  // Detect whether synopsis text is actually clamped
+  useEffect(() => {
+    const el = synopsisRef.current
+    if (el) {
+      setIsClamped(el.scrollHeight > el.clientHeight)
+    }
+  }, [item.overview])
 
   const year = item.releaseDate ? item.releaseDate.slice(0, 4) : null
   const cast = item.cast?.slice(0, 5) ?? []
@@ -123,22 +133,25 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
         {item.overview ? (
           <div className={styles.synopsisSection}>
             <p
+              ref={synopsisRef}
               className={`${styles.synopsis} ${
                 !synopsisExpanded ? styles.synopsisClamped : ''
               }`}
             >
               {item.overview}
             </p>
-            <button
-              className={styles.toggleBtn}
-              onClick={(e) => {
-                e.stopPropagation()
-                setSynopsisExpanded((prev) => !prev)
-              }}
-              type="button"
-            >
-              {synopsisExpanded ? 'Show less' : 'Show more'}
-            </button>
+            {(isClamped || synopsisExpanded) && (
+              <button
+                className={styles.toggleBtn}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setSynopsisExpanded((prev) => !prev)
+                }}
+                type="button"
+              >
+                {synopsisExpanded ? 'Show less' : 'Show more'}
+              </button>
+            )}
           </div>
         ) : (
           <p className={styles.synopsis}>No synopsis available.</p>
@@ -228,6 +241,18 @@ export function MovieCard({ item, onClick, disabled = false }: MovieCardProps) {
             </span>
           )}
         </div>
+
+        {/* TMDB Link */}
+        <a
+          className={styles.tmdbLink}
+          href={`https://www.themoviedb.org/${item.mediaType}/${item.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          View on TMDB
+          <span className={styles.externalIcon} aria-hidden="true">&#8599;</span>
+        </a>
       </div>
     </motion.div>
   )

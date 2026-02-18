@@ -23,7 +23,7 @@
 .poster {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 2 / 2.8;
   overflow: hidden;
   background: var(--bg-secondary);
 }
@@ -119,18 +119,15 @@
 
 .ratingHigh {
   background: var(--rating-high);
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
 }
 
 .ratingMid {
   background: var(--rating-mid);
   color: #1a1a2e;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
 }
 
 .ratingLow {
   background: var(--rating-low);
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
 .voteCount {
@@ -181,7 +178,8 @@
 
 .synopsisClamped {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -341,6 +339,26 @@
   font-style: italic;
 }
 
+/* ===== TMDB Link ===== */
+.tmdbLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.tmdbLink:hover {
+  color: var(--accent-hover);
+}
+
+.externalIcon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 560px) {
   .content {
@@ -408,3 +426,5 @@
     font-size: 0.72rem;
   }
 }
+
+/* ===== Compact Mode (matchup screen) ===== */

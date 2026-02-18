@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useBracket, useBracketDispatch } from '../../context/BracketContext'
-import { MovieCard } from '../MovieCard/MovieCard'
 import { BracketView } from '../BracketView/BracketView'
+import { TMDB_IMAGE_BASE, POSTER_SIZE, PROFILE_SIZE, LOGO_SIZE } from '../../constants/genres'
 import styles from './WinnerScreen.module.css'
 
 /* ---------- Confetti helpers ---------- */
@@ -21,8 +21,8 @@ const CONFETTI_COLORS = [
 
 interface ConfettiPiece {
   id: number
-  x: number // random spread -50vw to 50vw
-  y: number // random upward burst
+  x: number
+  y: number
   rotate: number
   scale: number
   color: string
@@ -34,8 +34,8 @@ interface ConfettiPiece {
 function generateConfetti(): ConfettiPiece[] {
   return Array.from({ length: CONFETTI_COUNT }, (_, i) => ({
     id: i,
-    x: (Math.random() - 0.5) * 100, // vw units spread
-    y: -(Math.random() * 60 + 30), // fly upward between -30vh and -90vh
+    x: (Math.random() - 0.5) * 100,
+    y: -(Math.random() * 60 + 30),
     rotate: Math.random() * 720 - 360,
     scale: Math.random() * 0.6 + 0.4,
     color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
@@ -43,6 +43,19 @@ function generateConfetti(): ConfettiPiece[] {
     delay: Math.random() * 0.4,
     duration: Math.random() * 1.2 + 1.0,
   }))
+}
+
+function formatRuntime(minutes: number): string {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  if (h === 0) return `${m}m`
+  if (m === 0) return `${h}h`
+  return `${h}h ${m}m`
+}
+
+function formatVoteCount(count: number): string {
+  if (count >= 1000) return count.toLocaleString()
+  return String(count)
 }
 
 /* ---------- Component ---------- */
@@ -66,6 +79,16 @@ export function WinnerScreen() {
   if (!winner) return null
 
   const tmdbUrl = `https://www.themoviedb.org/${winner.mediaType}/${winner.id}`
+  const year = winner.releaseDate ? winner.releaseDate.slice(0, 4) : null
+  const cast = winner.cast?.slice(0, 5) ?? []
+  const providers = winner.watchProviders?.slice(0, 6) ?? []
+
+  const ratingClass =
+    winner.voteAverage >= 7
+      ? styles.ratingHigh
+      : winner.voteAverage >= 5
+        ? styles.ratingMid
+        : styles.ratingLow
 
   return (
     <motion.div
@@ -87,13 +110,7 @@ export function WinnerScreen() {
               width: piece.scale * 12,
               height: piece.scale * 12,
             }}
-            initial={{
-              x: 0,
-              y: 0,
-              opacity: 1,
-              rotate: 0,
-              scale: 0,
-            }}
+            initial={{ x: 0, y: 0, opacity: 1, rotate: 0, scale: 0 }}
             animate={{
               x: `${piece.x}vw`,
               y: `${piece.y}vh`,
@@ -101,11 +118,7 @@ export function WinnerScreen() {
               rotate: piece.rotate,
               scale: piece.scale,
             }}
-            transition={{
-              duration: piece.duration,
-              delay: piece.delay,
-              ease: 'easeOut',
-            }}
+            transition={{ duration: piece.duration, delay: piece.delay, ease: 'easeOut' }}
           />
         ))}
       </div>
@@ -120,56 +133,169 @@ export function WinnerScreen() {
         YOUR WINNER
       </motion.h1>
 
-      {/* ---- Winner Card ---- */}
+      {/* ---- Horizontal Layout: Poster Left, Info Right ---- */}
       <motion.div
-        className={styles.cardWrapper}
-        initial={{ y: 100, opacity: 0, scale: 0.8 }}
+        className={styles.winnerLayout}
+        initial={{ y: 80, opacity: 0, scale: 0.9 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         transition={{ type: 'spring', stiffness: 150, damping: 15, delay: 0.3 }}
       >
-        <div className={styles.glowBorder}>
-          <MovieCard item={winner} />
+        {/* Poster Side */}
+        <div className={styles.posterSide}>
+          <div className={styles.glowBorder}>
+            <div className={styles.posterContainer}>
+              {winner.posterPath ? (
+                <img
+                  className={styles.posterImage}
+                  src={`${TMDB_IMAGE_BASE}${POSTER_SIZE}${winner.posterPath}`}
+                  alt={winner.title}
+                />
+              ) : (
+                <div className={styles.posterPlaceholder}>
+                  <span className={styles.posterIcon} aria-hidden="true">
+                    🎬
+                  </span>
+                  <span className={styles.posterTitle}>{winner.title}</span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </motion.div>
 
-      {/* ---- TMDB Link ---- */}
-      <motion.a
-        className={styles.tmdbLink}
-        href={tmdbUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
-        View on TMDB
-        <span className={styles.externalIcon} aria-hidden="true">
-          &#8599;
-        </span>
-      </motion.a>
+        {/* Info Side */}
+        <div className={styles.infoSide}>
+          {/* Title & Year */}
+          <div className={styles.infoTitleRow}>
+            <h2 className={styles.infoTitle}>{winner.title}</h2>
+            {year && <span className={styles.infoYear}>({year})</span>}
+          </div>
 
-      {/* ---- Buttons ---- */}
-      <motion.div
-        className={styles.buttons}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.9 }}
-      >
-        <button
-          className={styles.bracketBtn}
-          onClick={() => setShowBracket((prev) => !prev)}
-          type="button"
-        >
-          {showBracket ? 'Hide Bracket' : 'View Bracket'}
-        </button>
+          {/* Rating */}
+          <div className={styles.ratingRow}>
+            <span className={`${styles.ratingBadge} ${ratingClass}`}>
+              {winner.voteAverage.toFixed(1)}
+            </span>
+            <span className={styles.voteCount}>
+              &middot; {formatVoteCount(winner.voteCount)} votes
+            </span>
+          </div>
 
-        <button
-          className={styles.playAgainBtn}
-          onClick={() => dispatch({ type: 'RESET' })}
-          type="button"
-        >
-          Play Again
-        </button>
+          {/* Genres */}
+          {winner.genres.length > 0 && (
+            <div className={styles.genres}>
+              {winner.genres.map((genre) => (
+                <span key={genre} className={styles.genrePill}>
+                  {genre}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Synopsis */}
+          {winner.overview && (
+            <p className={styles.synopsis}>{winner.overview}</p>
+          )}
+
+          {/* Runtime / Seasons */}
+          {winner.mediaType === 'movie' && winner.runtime != null && (
+            <div className={styles.meta}>
+              <span className={styles.metaIcon} aria-hidden="true">&#9201;</span>
+              {formatRuntime(winner.runtime)}
+            </div>
+          )}
+          {winner.mediaType === 'tv' &&
+            (winner.numberOfSeasons != null || winner.numberOfEpisodes != null) && (
+              <div className={styles.meta}>
+                <span className={styles.metaIcon} aria-hidden="true">&#128250;</span>
+                {winner.numberOfSeasons != null && (
+                  <span>{winner.numberOfSeasons} Season{winner.numberOfSeasons !== 1 ? 's' : ''}</span>
+                )}
+                {winner.numberOfSeasons != null && winner.numberOfEpisodes != null && (
+                  <span>&middot;</span>
+                )}
+                {winner.numberOfEpisodes != null && (
+                  <span>{winner.numberOfEpisodes} Episode{winner.numberOfEpisodes !== 1 ? 's' : ''}</span>
+                )}
+              </div>
+            )}
+
+          {/* Cast */}
+          {cast.length > 0 && (
+            <div className={styles.castSection}>
+              <span className={styles.castLabel}>Cast</span>
+              <div className={styles.castList}>
+                {cast.map((member) => (
+                  <div key={member.id} className={styles.castMember}>
+                    {member.profilePath ? (
+                      <img
+                        className={styles.castPhoto}
+                        src={`${TMDB_IMAGE_BASE}${PROFILE_SIZE}${member.profilePath}`}
+                        alt={member.name}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className={styles.castPhotoPlaceholder}>
+                        <span className={styles.castInitial}>{member.name.charAt(0)}</span>
+                      </div>
+                    )}
+                    <span className={styles.castName}>{member.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Providers */}
+          <div className={styles.providersSection}>
+            <span className={styles.providersLabel}>Available on</span>
+            {providers.length > 0 ? (
+              <div className={styles.providersList}>
+                {providers.map((provider) => (
+                  <img
+                    key={provider.providerId}
+                    className={styles.providerLogo}
+                    src={`${TMDB_IMAGE_BASE}${LOGO_SIZE}${provider.logoPath}`}
+                    alt={provider.providerName}
+                    title={provider.providerName}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            ) : (
+              <span className={styles.providersEmpty}>Streaming info unavailable</span>
+            )}
+          </div>
+
+          {/* TMDB Link */}
+          <a
+            className={styles.tmdbLink}
+            href={tmdbUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on TMDB
+            <span className={styles.externalIcon} aria-hidden="true">&#8599;</span>
+          </a>
+
+          {/* Buttons */}
+          <div className={styles.buttons}>
+            <button
+              className={styles.bracketBtn}
+              onClick={() => setShowBracket((prev) => !prev)}
+              type="button"
+            >
+              {showBracket ? 'Hide Bracket' : 'View Bracket'}
+            </button>
+
+            <button
+              className={styles.playAgainBtn}
+              onClick={() => dispatch({ type: 'RESET' })}
+              type="button"
+            >
+              Play Again
+            </button>
+          </div>
+        </div>
       </motion.div>
 
       {/* ---- Bracket View ---- */}
