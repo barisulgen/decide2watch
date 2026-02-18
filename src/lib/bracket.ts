@@ -70,9 +70,3 @@ export function isTournamentComplete(rounds: BracketRound[], totalRounds: number
   return rounds.length === totalRounds &&
     rounds[rounds.length - 1].matchups[0].winner !== null
 }
-
-export function getWinner(rounds: BracketRound[]): MediaItem | null {
-  const finalRound = rounds[rounds.length - 1]
-  if (finalRound.matchups.length !== 1) return null
-  return finalRound.matchups[0].winner
-}

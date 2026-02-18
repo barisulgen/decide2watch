@@ -38,7 +38,7 @@ function App() {
         <div className={styles.headerContent}>
           <h1 className={styles.logo}>
             <span className={styles.logoIcon}>▶</span>
-            decide<span className={styles.logoAccent}>2</span>watch
+            decide2watch
           </h1>
 
           {isMatchup && (
